@@ -37,20 +37,60 @@ data_final <- data_final %>% mutate_at(c("other_race_pop_per"), ~(scale(.) %>% a
 data_final <- data_final %>% mutate_at(c("two_or_more_races_pop_per"), ~(scale(.) %>% as.vector))
 data_final <- data_final %>% mutate_at(c("not_hispanic_pop_per"), ~(scale(.) %>% as.vector))
 data_final <- data_final %>% mutate_at(c("commuters_by_public_transportation"), ~(scale(.) %>% as.vector))
-
 km <- kmeans(data_final, centers = 4)
 km$tot.withinss
 
 kms <- rep(NA, 14)
-scores <- rep(NA, 14)
+sse_scores <- rep(NA, 14)
+
+#Distance functions
+euc_dist <- function(p1,p2) {
+  sqrt(sum((p1 - p2) ^ 2))
+}
+man_dist <- function(p1,p2) {
+ sum(abs(p1 - p2))
+}
+km <- kmeans(data_final, centers = 5, iter.max =30)
+
+#similarity scores
+cluster_data = 0
+graph_coesion <- function(data, clusters, distance) {
+  temp_data <- data
+  temp_data$cluster <- clusters
+  number_of_clusters <- max(clusters)
+  similarities <- rep(0, number_of_clusters)
+  for (i in 1:number_of_clusters) {
+    cluster_data <- filter(temp_data, cluster == i)
+    print(split(cluster_data, 1:nrow(cluster_data)))
+    cluster_data <- lapply(split(cluster_data, 1:nrow(cluster_data)), as.list)
+    sum = 0
+    for (j in 1:dim(cluster_data)[1]) {
+      for (k in (j+1):dim(cluster_data)[1]) {
+        x <- filter(cluster_data, row_number()==i)
+        y <- filter(cluster_data, row_number()==j)
+        sum <- sum + distance(x,y)
+      }
+    }
+    similarities[i] = sum
+  }
+  sum(similarities)
+}
+graph_coesion(data_final, km$cluster, euc_dist)
+cluster_data
+test <- lapply(split(data_final, 1:nrow(data_final)), as.list)
+test[2][1]
 
 xValue <- 2:30
 for (i in xValue) {
   km <- kmeans(data_final, centers = i, iter.max =30)
-  kms[i - 1] <- km
+  kms[i - 1] <- list(km)
   scores[i - 1] <- km$tot.withinss
 }
 line_data <- data.frame(xValue,scores)
 ggplot(line_data, aes(x=xValue, y=scores)) +
   geom_line(size=1, alpha=0.9, linetype=1) +
   ggtitle("SSE Scores") + xlab("Number of Clusters")
+
+
+km$totss
+km$tot.withinss
