@@ -66,8 +66,8 @@ graph_coesion <- function(data, clusters, distance) {
     sum = 0
     for (j in 1:dim(cluster_data)[1]) {
       for (k in (j+1):dim(cluster_data)[1]) {
-        x <- filter(cluster_data, row_number()==i)
-        y <- filter(cluster_data, row_number()==j)
+        x <- cluster_data[i,1:15]
+        y <- cluster_data[j,1:15]
         sum <- sum + distance(x,y)
       }
     }
@@ -75,7 +75,8 @@ graph_coesion <- function(data, clusters, distance) {
   }
   sum(similarities)
 }
-graph_coesion(data_final, km$cluster, euc_dist)
+km$cluster
+print(graph_coesion(data_final, km$cluster, euc_dist))
 cluster_data
 test <- lapply(split(data_final, 1:nrow(data_final)), as.list)
 test[2][1]
