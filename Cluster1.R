@@ -51,9 +51,9 @@ man_dist <- function(p1,p2) {
  sum(abs(p1 - p2))
 }
 km <- kmeans(data_final, centers = 5, iter.max =30)
-
+km$cluster
 #similarity scores
-cluster_data = 0
+#returns a single row of the coesion of 
 graph_coesion <- function(data, clusters, distance) {
   temp_data <- data
   temp_data$cluster <- clusters
@@ -61,21 +61,36 @@ graph_coesion <- function(data, clusters, distance) {
   similarities <- rep(0, number_of_clusters)
   for (i in 1:number_of_clusters) {
     cluster_data <- filter(temp_data, cluster == i)
-    print(split(cluster_data, 1:nrow(cluster_data)))
-    cluster_data <- lapply(split(cluster_data, 1:nrow(cluster_data)), as.list)
+    cluster_length <- dim(cluster_data)[1]
     sum = 0
-    for (j in 1:dim(cluster_data)[1]) {
-      for (k in (j+1):dim(cluster_data)[1]) {
-        x <- filter(cluster_data, row_number()==i)
-        y <- filter(cluster_data, row_number()==j)
-        sum <- sum + distance(x,y)
+    print(paste('on cluster ', i, ' dim of ', dim(cluster_data)))
+    for (j in 1:cluster_length-1) {
+      for (k in (j+1):cluster_length) {
+        x <- cluster_data[j,1:15]
+        y <- cluster_data[k,1:15]
+        if(dim(x) == dim(y)){
+          sum <- sum + distance(x,y)
+        }
+        
       }
     }
+    print(paste('done with clutser', i, ' ', sum))
     similarities[i] = sum
   }
-  sum(similarities)
+  similarities
 }
-graph_coesion(data_final, km$cluster, euc_dist)
+print(graph_coesion(data_final, km$cluster, euc_dist))
+
+temp_data <- data_final
+temp_data$cluster <- km$cluster
+cluster_data <- filter(temp_data, cluster == 1)
+x <- cluster_data[1,1:15]
+y <- cluster_data[2,1:15]
+sum((x - y)^2)
+euc_dist(x,y)
+
+
+
 cluster_data
 test <- lapply(split(data_final, 1:nrow(data_final)), as.list)
 test[2][1]
