@@ -88,12 +88,16 @@ temp_numeric <- temp %>% select(total_pop, original_total_pop, no_rent_burden,
 apply(temp_numeric,2,sd)
 
 # Investigate Outliers
-
+# Invwargate rent Burden
 p1 <- ggplot(temp, aes(x = severe_burden, y = rent_burden)) + geom_point()
 p2 <- ggplot(temp, aes(x = severe_burden, y = no_rent_burden)) + geom_point()
 p3 <- ggplot(temp, aes(x = rent_burden, y = no_rent_burden)) + geom_point()
 
-
 g <- ggarrange(p1, p2, p3) +
   ggtitle("Title")
 g
+annotate_figure(g, top = text_grob("Rent Burden Plot Chart"))
+ggsave("./charts/RentBurdenPlots.jpg", width = 6.5, height = 3)
+
+# Investigate Population vs cases and deaths
+
