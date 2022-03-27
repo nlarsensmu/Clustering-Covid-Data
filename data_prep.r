@@ -100,4 +100,16 @@ annotate_figure(g, top = text_grob("Rent Burden Plot Chart"))
 ggsave("./charts/RentBurdenPlots.jpg", width = 6.5, height = 3)
 
 # Investigate Population vs cases and deaths
+p1 <- ggplot(temp, aes(x = original_total_pop, y = confirmed_cases_per1000)) + 
+  geom_point()
+p1
+target <- max(temp$original_total_pop)
 
+match(temp$original_total_pop, target)
+
+p2 <- ggplot(temp, aes(x = original_total_pop, y = deaths_per1000)) + 
+  geom_point() +
+  geom_text(data = temp,
+            aes(x = 8.75e06, y = 1.5, label = "Outlier >>"))
+p2
+ggsave("./charts/DeathsCasesPlot", width = 6.5, height = 3)
