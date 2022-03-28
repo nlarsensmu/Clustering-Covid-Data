@@ -70,7 +70,7 @@ temp <- data_final %>% select(total_pop, original_total_pop, no_rent_burden, ren
                       white_pop_per, black_pop_per, asian_pop_per, hispanic_pop_per,
                       amerindian_pop_per, other_race_pop_per, two_or_more_races_pop_per,
                       not_hispanic_pop_per, commuters_by_public_transportation,
-                      county_name, state, county_fips_code)
+                      county_name, state, county_fips_code, deaths, confirmed_cases)
 temp
 temp %>% write.csv(file = "datatable.csv")
 
@@ -88,12 +88,53 @@ temp_numeric <- temp %>% select(total_pop, original_total_pop, no_rent_burden,
 apply(temp_numeric,2,sd)
 
 # Investigate Outliers
-
+# Invwargate rent Burden
 p1 <- ggplot(temp, aes(x = severe_burden, y = rent_burden)) + geom_point()
 p2 <- ggplot(temp, aes(x = severe_burden, y = no_rent_burden)) + geom_point()
 p3 <- ggplot(temp, aes(x = rent_burden, y = no_rent_burden)) + geom_point()
 
+g <- ggarrange(p1, p2, p3)
+annotate_figure(g, top = text_grob("Rent Burden Plot Chart"))
+ggsave("./charts/RentBurdenPlots.jpg", width = 6.5, height = 3)
 
-g <- ggarrange(p1, p2, p3) +
-  ggtitle("Title")
-g
+# Investigate Population vs cases and deaths
+p1 <- ggplot(temp, aes(x = original_total_pop, y = confirmed_cases_per1000)) + 
+  geom_point()
+p1
+target <- max(temp$original_total_pop)
+target
+
+match(temp$original_total_pop, target)
+
+outlier_row = temp %>% filter(original_total_pop > 7.5e6)
+outlier_row$county_name
+outlier_row$state
+outlier_row$county_fips_code
+
+p1 <- ggplot(temp, aes(x = original_total_pop, y = deaths)) + 
+  geom_point() +
+  geom_text(data = temp,
+            aes(x = 1e07-21e5, y = 1.425e4, label = "LA County >>")) +
+  ggtitle("Cases per Population Outliers")
+p2 <- ggplot(temp, aes(x = original_total_pop, y = confirmed_cases)) + 
+  geom_point() +
+  geom_text(data = temp,
+            aes(x = 1e07-21e5, y = 9.3e5, label = "LA County >>")) +
+  ggtitle("Deaths per Population Outliers")
+
+
+g <- ggarrange(p1, p2)
+annotate_figure(g, top = text_grob("Populations vs Deaths and Cases"))
+
+ggsave("./charts/DeathsCasesPlot.jpg", width = 6.5, height = 3)
+
+# Filter out LA county.
+
+temp <- temp %>% filter(county_fips_code != "06037")
+
+
+temp
+
+temp <- temp %>% filter(original_total_pop >= 1000)
+
+temp %>% write.csv(file = "datatable.csv")
