@@ -131,3 +131,10 @@ ggsave("./charts/DeathsCasesPlot.jpg", width = 6.5, height = 3)
 # Filter out LA county.
 
 temp <- temp %>% filter(county_fips_code != "06037")
+
+
+temp
+
+temp <- temp %>% filter(original_total_pop >= 1000)
+
+temp %>% write.csv(file = "datatable.csv")
