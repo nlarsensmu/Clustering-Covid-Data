@@ -1,5 +1,6 @@
+
 create_cluster_profile <- function(data) {
-  p <- ggplot(pivot_longer(data, cols = c(deaths_per100, confirmed_cases_per1000), 
+  p <- ggplot(pivot_longer(data, cols = c(deaths_per10000, confirmed_cases_per1000), 
                            names_to = "feature"),
               aes(x = value, y = feature, fill = cluster)) +
     geom_bar(stat = "identity") +
@@ -8,9 +9,9 @@ create_cluster_profile <- function(data) {
 }
 
 create_box_plots_per_cluster_deaths <- function(data) {
-  p <- (ggplot(data, aes(x=cluster, y=deaths_per100)) + 
+  p <- (ggplot(data, aes(x=cluster, y=deaths_per10000)) + 
           geom_boxplot() + 
-          ylab("Deaths per 100") + 
+          ylab("Deaths per 10,000") + 
           ggtitle("Death Statistics per Cluster"))
   p
 }
