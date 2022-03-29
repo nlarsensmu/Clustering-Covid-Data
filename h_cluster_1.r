@@ -110,7 +110,7 @@ source("./clustering_helpers.R")
 selected$confirmed_cases_per1000 <- data$confirmed_cases_per1000
 selected$deaths_per10000 <-  data$deaths_per1000 * 10
 selected$cluster <- hc_14
-p <- create_cluster_profile(selected)
+p <- create_cluster_profile2(selected)
 p
 ggsave("./charts/ColorProfile.png", plot = p,  device = "png",  
        scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100)
@@ -121,3 +121,32 @@ result <- SSE(selected, hc_14)
 result$sumWithin
 
 print(table(hc_i))
+
+test <- selected
+piv <- pivot_longer(test, cols = c(deaths_per10000, confirmed_cases_per1000), 
+                    names_to = "feature")
+mean(filter(test, cluster == 1)$confirmed_cases_per1000)
+
+temp_data <- tibble(.rows = 14)
+temp_data$clusters <- 1:14
+
+deaths <- vector()
+cases <- vector()
+for (i in 1:14) {
+  deaths <- append(deaths, mean(filter(selected, cluster == i)$deaths_per10000))
+  cases <- append(cases, mean(filter(selected, cluster == i)$confirmed_cases_per1000))
+}
+temp_data$mean_deaths_per10000 <- deaths
+temp_data$mean_cases_per1000 <- cases
+temp_data
+
+clusters <- selected$cluster
+uniq <- unique(clusters)
+length(uniq)
+
+ggplot(pivot_longer(temp_data, cols = c(mean_deaths_per10000, mean_cases_per1000), 
+                    names_to = "feature")) +
+  aes(x = value, y = feature, fill = clusters) +
+  geom_bar(stat = "identity") +
+  facet_grid(rows = vars(clusters))
+
