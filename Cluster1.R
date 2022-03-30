@@ -114,14 +114,13 @@ catagorize_deaths(data_final)
 
 data_final
 
-
-
 ## Measure Entropy 
-ret <- entropy(hc_15, catagorize_cases(selected, 15))
+ret <- entropy(data_final$cluster, catagorize_cases(selected, 15))
 print("cases:")
 ret$total
 ret$indv
 print("deaths:")
-ret <- entropy(hc_15, catagorize_deaths(selected, 15))
+ret <- entropy( data_final$cluster, catagorize_deaths(selected, 15))
 ret$total
 ret$indv
+
