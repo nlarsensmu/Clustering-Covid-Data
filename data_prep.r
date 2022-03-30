@@ -61,8 +61,9 @@ data_final$two_or_more_races_pop_per = data_final$two_or_more_races_pop / data_f
 data_final$not_hispanic_pop_per = data_final$not_hispanic_pop / data_final$original_total_pop
 
 
+data_final %>% write.csv(file = "for_eval.csv")
 
-
+data_final$total_pop
 
 temp <- data_final %>% select(total_pop, original_total_pop, no_rent_burden, rent_burden,
                       severe_burden, median_income,
@@ -179,3 +180,4 @@ cut2 <- max - med
 cut(data$confirmed_cases_per1000, 
     breaks=c(-Inf, cut1, cut2, Inf), 
     labels=c("low","middle","high"))
+

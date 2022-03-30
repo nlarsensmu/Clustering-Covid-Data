@@ -65,8 +65,9 @@ ggsave("./charts/cluster4/sse_score.png",  plot = p,  device = "png",
 
 first_time <- FALSE
 if (first_time) {
-  km <- kmeans(data_final, centers = chosen_number_of_clusters, nstart = 10, iter.max =30)
-  data_final$cluster <- km$cluster
+  d <- dist(data_final, method = "manhattan")
+  p <- pam(d, k=chosen_number_of_clusters)
+  data_final$cluster <- p$clustering 
   write.csv(data_final, file = "cluster4.csv")
 } else {
   data_final <- read_csv("cluster4.csv")
@@ -95,4 +96,22 @@ p
 ggsave("./charts/cluster4/box_plot_cases.png",  plot = p,  device = "png",  
        scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100
 )
+
+## Measure Entropy 
+ret <- entropy(data_final$cluster, catagorize_cases(data_final, 15))
+print("cases:")
+ret$total
+ret$indv
+print("deaths:")
+ret <- entropy( data_final$cluster, catagorize_deaths(data_final, 15))
+ret$total
+ret$indv
+
+random_15 <- sample(1:15, nrow(data_final), replace = TRUE)
+ret <- entropy( random_15, catagorize_deaths(data_final, 15))
+ret$total
+ret$indv
+ret <- entropy( random_15, catagorize_cases(data_final, 15))
+ret$total
+ret$indv
 
