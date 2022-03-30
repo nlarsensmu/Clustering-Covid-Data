@@ -1,4 +1,3 @@
-
 create_cluster_profile <- function(data) {
   p <- ggplot(pivot_longer(data, cols = c(deaths_per10000, confirmed_cases_per1000), 
                            names_to = "feature"),
@@ -42,9 +41,9 @@ create_box_plots_per_cluster_deaths <- function(data) {
 }
 create_box_plots_per_cluster_cases <- function(data) {
   p <- (ggplot(data, aes(x=cluster, y=confirmed_cases_per1000)) + 
-        geom_boxplot() + 
-        ylab("Cases per 1000") + 
-        ggtitle("Case Statistics per Cluster"))
+          geom_boxplot() + 
+          ylab("Cases per 1000") + 
+          ggtitle("Case Statistics per Cluster"))
   p
 }
 
