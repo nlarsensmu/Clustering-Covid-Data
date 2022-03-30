@@ -1,4 +1,3 @@
-
 create_cluster_profile <- function(data) {
   p <- ggplot(pivot_longer(data, cols = c(deaths_per10000, confirmed_cases_per1000), 
                            names_to = "feature"),
@@ -42,9 +41,9 @@ create_box_plots_per_cluster_deaths <- function(data) {
 }
 create_box_plots_per_cluster_cases <- function(data) {
   p <- (ggplot(data, aes(x=cluster, y=confirmed_cases_per1000)) + 
-        geom_boxplot() + 
-        ylab("Cases per 1000") + 
-        ggtitle("Case Statistics per Cluster"))
+          geom_boxplot() + 
+          ylab("Cases per 1000") + 
+          ggtitle("Case Statistics per Cluster"))
   p
 }
 
@@ -146,7 +145,6 @@ purity <- function(cluster, truth) {
   cnts <- sapply(split(truth, cluster), table)
   p <- sweep(cnts, 1, rowSums(cnts), "/")
   p[is.nan(p)] <- 0
-  
   #sum(w * apply(p, 1, max))
   return_list <- list(total=sum(w * apply(p, 1, max)),
                       indv=w * apply(p, 1, max))
