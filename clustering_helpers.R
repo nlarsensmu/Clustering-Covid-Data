@@ -103,3 +103,31 @@ catagorize_cases <- function(data) {
       breaks=c(-Inf, cut1, cut2, Inf), 
       labels=c("low","middle","high"))
 }
+
+# From the R companion
+entropy <- function(cluster, truth) {
+  k <- max(cluster, truth)
+  cluster <- factor(cluster, levels = 1:k)
+  truth <- factor(truth, levels = 1:k)
+  w <- table(cluster)/length(cluster)
+  
+  cnts <- sapply(split(truth, cluster), table)
+  p <- sweep(cnts, 1, rowSums(cnts), "/")
+  p[is.nan(p)] <- 0
+  e <- -p * log(p, 2)
+  
+  sum(w * rowSums(e, na.rm = TRUE))
+}
+
+purity <- function(cluster, truth) {
+  k <- max(cluster, truth)
+  cluster <- factor(cluster, levels = 1:k)
+  truth <- factor(truth, levels = 1:k)
+  w <- table(cluster)/length(cluster)
+  
+  cnts <- sapply(split(truth, cluster), table)
+  p <- sweep(cnts, 1, rowSums(cnts), "/")
+  p[is.nan(p)] <- 0
+  
+  sum(w * apply(p, 1, max))
+}
