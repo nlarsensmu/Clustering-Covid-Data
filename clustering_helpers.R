@@ -17,12 +17,14 @@ create_cluster_profile2 <- function(data) {
   deaths <- vector()
   cases <- vector()
   for (i in 1:n_clusters) {
-    deaths <- append(deaths, mean(filter(selected, cluster == i)$deaths_per10000))
-    cases <- append(cases, mean(filter(selected, cluster == i)$confirmed_cases_per1000))
+    deaths <- append(deaths, mean(filter(data, cluster == i)$deaths_per10000))
+    cases <- append(cases, mean(filter(data, cluster == i)$confirmed_cases_per1000))
   }
   temp_data$mean_deaths_per10000 <- deaths
   temp_data$mean_cases_per1000 <- cases
   
+  temp_data <- arrange(temp_data, mean_cases_per1000)
+  sort()
   
   ggplot(pivot_longer(temp_data, cols = c(mean_deaths_per10000, mean_cases_per1000), 
                       names_to = "feature")) +
@@ -79,4 +81,25 @@ SSE <- function(data, clusters) {
   }
   return_list <- list(centroidMat=centroidMat, clusterWithin=clusterWithin, sumWithin=sum(clusterWithin))
   return(return_list)
+}
+
+catagorize_deaths <- function(data) {
+  min <- min(data$deaths_per10000)
+  max <- max(data$deaths_per10000)
+  med <- median(data$deaths_per10000)
+  cut1 <- med - min
+  cut2 <- max - med
+  cut(data$deaths_per10000, 
+      breaks=c(-Inf, cut1, cut2, Inf), 
+      labels=c("low","middle","high"))
+}
+catagorize_cases <- function(data) {
+  min <- min(data$confirmed_cases_per1000)
+  max <- max(data$confirmed_cases_per1000)
+  med <- median(data$confirmed_cases_per1000)
+  cut1 <- med - min
+  cut2 <- max - med
+  cut(data$confirmed_cases_per1000, 
+      breaks=c(-Inf, cut1, cut2, Inf), 
+      labels=c("low","middle","high"))
 }

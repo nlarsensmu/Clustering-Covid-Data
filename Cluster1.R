@@ -73,17 +73,23 @@ ggsave("./charts/cluster1/sse_score.png",  plot = p,  device = "png",
 
 #here we are choosing the clustering based on the SSE graph over time
 chosen_number_of_clusters <- 15
-km <- kmeans(data_final, centers = chosen_number_of_clusters, nstart = 10, iter.max =30)
-data_final$cluster <- km$cluster
+first_time <- FALSE
+if (first_time) {
+  km <- kmeans(data_final, centers = chosen_number_of_clusters, nstart = 10, iter.max =30)
+  data_final$cluster <- km$cluster
+  write.csv(data_final, file = "cluster1.csv")
+} else {
+  data_final <- read_csv("cluster1.csv")
+}
 
 #add the deaths and the cases data back in 
-data_final$deaths_per100 <- data$deaths_per1000 * 10
+data_final$deaths_per10000 <- data$deaths_per1000 * 10
 data_final$confirmed_cases_per1000 <- data$confirmed_cases_per1000
 source("./clustering_helpers.R")
-p <- create_cluster_profile(data_final)
+p <- create_cluster_profile2(data_final)
 p
 ggsave("./charts/cluster1/cluster_profile.png",  plot = p,  device = "png",  
-       scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100
+       scale = 1,  width = 1200,  height = 1000,  units =  "px", dpi = 100
 )
 
 
@@ -102,4 +108,6 @@ p
 ggsave("./charts/cluster1/box_plot_cases.png",  plot = p,  device = "png",  
        scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100
 )
+
+catagorize_deaths(data_final) 
 
