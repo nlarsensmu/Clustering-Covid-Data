@@ -2,6 +2,7 @@ library("tidyverse")
 library("ggplot2")
 library("dplyr")
 library("tidyr")
+library("factoextra")
 
 
 data <- read_csv("datatable.csv")
@@ -75,12 +76,12 @@ p <- ggplot(line_data, aes(x=xValue, y=sse_scores)) +
   ylab("SSE Score") + 
   geom_vline(xintercept = chosen_number_of_clusters, linetype="dashed", 
              color = "red", size=1.5) + 
-  geom_text(aes(x=chosen_number_of_clusters, label="14 clusters", 
+  geom_text(aes(x=chosen_number_of_clusters, label="15 clusters", 
                 y=20000), colour="black", angle=90, vjust = 1.2)
 p
 ggsave("./charts/ElbowHcluster1.jpg", width = 6.5, height = 3)
 
-p <- fviz_dend(hc, k = 15, cex = 0.01, main = "Complete H-Cluster for k=14")
+p <- fviz_dend(hc, k = 15, cex = 0.01, main = "Complete H-Cluster for k=15")
 p
 ggsave("./charts/ColoredDendo.jpg", width = 6.5, height = 3)
 
@@ -117,3 +118,13 @@ ret$indv
 test <- purity(hc_15, catagorize_cases(selected, 10))
 test
 test$total
+
+
+
+random_10 <- sample(1:10, nrow(selected), replace = TRUE)
+ret <- entropy( random_10, catagorize_deaths(selected, 15))
+ret$total
+ret$indv
+ret <- entropy( random_10, catagorize_cases(selected, 15))
+ret$total
+ret$indv
