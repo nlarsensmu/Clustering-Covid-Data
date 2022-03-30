@@ -109,5 +109,5 @@ ggsave("./charts/cluster1/box_plot_cases.png",  plot = p,  device = "png",
        scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100
 )
 
-catagorize_deaths(data_final) 
+catagorize_deaths(data_final)
 
