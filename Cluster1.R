@@ -124,3 +124,8 @@ ret <- entropy( data_final$cluster, catagorize_deaths(selected, 15))
 ret$total
 ret$indv
 
+random_15 <- sample(1:15, nrow(data_final), replace = TRUE)
+ret <- entropy( random_15, catagorize_deaths(selected, 15))
+ret$total
+ret$indv
+
