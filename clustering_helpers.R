@@ -24,7 +24,6 @@ create_cluster_profile2 <- function(data) {
   temp_data$mean_cases_per1000 <- cases
   
   temp_data <- arrange(temp_data, mean_cases_per1000)
-  sort()
   
   ggplot(pivot_longer(temp_data, cols = c(mean_deaths_per10000, mean_cases_per1000), 
                       names_to = "feature")) +
@@ -95,12 +94,7 @@ catagorize_deaths <- function(data, n) {
   }
   break_deaths <- append(break_deaths, Inf)
   
-  
-  labels_deaths <- c()
-  for (i in 1:(n-1)) {
-    labels_deaths <- append(labels_deaths, paste("deaths_class_", i, sep = ""))
-  }
-  labels_deaths
+  labels_deaths <- 1:(n-1)
   
   cut(data$deaths_per10000,
       breaks = break_deaths,
@@ -119,12 +113,7 @@ catagorize_cases <- function(data, n) {
   }
   break_deaths <- append(break_deaths, Inf)
   
-  
-  labels_deaths <- c()
-  for (i in 1:(n-1)) {
-    labels_deaths <- append(labels_deaths, paste("cases_class_", i, sep = ""))
-  }
-  labels_deaths
+  labels_deaths <- 1:(n-1)
   
   cut(data$confirmed_cases_per1000,
       breaks = break_deaths,

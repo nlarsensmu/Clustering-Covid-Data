@@ -138,3 +138,44 @@ temp
 temp <- temp %>% filter(original_total_pop >= 1000)
 
 temp %>% write.csv(file = "datatable.csv")
+
+
+source("./clustering_helpers.R")
+data <- temp
+
+data$deaths_per10000 <-  data$deaths_per1000 * 10
+n <- 5
+vect <- data$deaths_per10000
+vect <- sort(vect)
+l <- length(data$deaths_per10000)
+break_deaths <- c(-Inf)
+n <- n + 1
+window <- l %/% ((n - 1))
+for (i in 1:(n-2)) {
+  print(i*window)
+  break_deaths <- append(break_deaths, vect[i*window])
+}
+break_deaths <- append(break_deaths, Inf)
+
+
+labels_deaths <- c()
+for (i in 1:(n-1)) {
+  labels_deaths <- append(labels_deaths, paste("deaths_class_", i, sep = ""))
+}
+labels_deaths
+
+cut(data$deaths_per10000,
+    breaks = break_deaths,
+    labels = labels_deaths)
+
+test <- catagorize_deaths(data, 5)
+data$deaths_class = test
+print(data %>% filter(deaths_class == "deaths_class_3"))
+catagorize_cases(data, 5)
+
+n
+cut1 <- med - min
+cut2 <- max - med
+cut(data$confirmed_cases_per1000, 
+    breaks=c(-Inf, cut1, cut2, Inf), 
+    labels=c("low","middle","high"))
