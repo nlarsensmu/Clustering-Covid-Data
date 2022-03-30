@@ -108,6 +108,12 @@ print(table(hc_i))
 selected$case_death_class <- catagorize_deaths(selected, 10)
 selected$case_class <- catagorize_cases(selected, 10)
 ret <- entropy(hc_15, catagorize_cases(selected, 10))
-entropy(hc_15, catagorize_deaths(selected, 10))
+ret$total
+ret$indv
+ret <- entropy(hc_15, catagorize_deaths(selected, 10))
+ret$total
+ret$indv
 
-purity(hc_15, catagorize_cases(selected, 10))
+test <- purity(hc_15, catagorize_cases(selected, 10))
+test
+test$total

@@ -111,3 +111,17 @@ ggsave("./charts/cluster1/box_plot_cases.png",  plot = p,  device = "png",
 
 catagorize_deaths(data_final) 
 
+
+data_final
+
+
+
+## Measure Entropy 
+ret <- entropy(hc_15, catagorize_cases(selected, 15))
+print("cases:")
+ret$total
+ret$indv
+print("deaths:")
+ret <- entropy(hc_15, catagorize_deaths(selected, 15))
+ret$total
+ret$indv
