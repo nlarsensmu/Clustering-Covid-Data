@@ -115,17 +115,20 @@ catagorize_deaths(data_final)
 data_final
 
 ## Measure Entropy 
-ret <- entropy(data_final$cluster, catagorize_cases(selected, 15))
+ret <- entropy(data_final$cluster, catagorize_cases(data_final, 15))
 print("cases:")
 ret$total
 ret$indv
 print("deaths:")
-ret <- entropy( data_final$cluster, catagorize_deaths(selected, 15))
+ret <- entropy( data_final$cluster, catagorize_deaths(data_final, 15))
 ret$total
 ret$indv
 
 random_15 <- sample(1:15, nrow(data_final), replace = TRUE)
-ret <- entropy( random_15, catagorize_deaths(selected, 15))
+ret <- entropy( random_15, catagorize_deaths(data_final, 15))
+ret$total
+ret$indv
+ret <- entropy( random_15, catagorize_cases(data_final, 15))
 ret$total
 ret$indv
 
