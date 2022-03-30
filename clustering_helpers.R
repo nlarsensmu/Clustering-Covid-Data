@@ -131,8 +131,10 @@ entropy <- function(cluster, truth) {
   p[is.nan(p)] <- 0
   e <- -p * log(p, 2)
   
-  sum(w * rowSums(e, na.rm = TRUE))
-}
+  return_list <- list(total=sum(w * rowSums(e, na.rm = TRUE)),
+                      indv=rowSums(e, na.rm = TRUE) * w)
+  return(return_list)
+  }
 
 purity <- function(cluster, truth) {
   k <- max(cluster, truth)
@@ -143,6 +145,8 @@ purity <- function(cluster, truth) {
   cnts <- sapply(split(truth, cluster), table)
   p <- sweep(cnts, 1, rowSums(cnts), "/")
   p[is.nan(p)] <- 0
-  
-  sum(w * apply(p, 1, max))
+  #sum(w * apply(p, 1, max))
+  return_list <- list(total=sum(w * apply(p, 1, max)),
+                      indv=w * apply(p, 1, max))
+  return(return_list)
 }
