@@ -19,7 +19,7 @@ data_final <- data %>%
     amerindian_pop_per,
     commuters_by_public_transportation,
     deaths,
-    #confirmed_cases I removed this because we shouln't use the ground truths on the clustering
+    confirmed_cases
   ) %>% 
   scale() %>% as_tibble()
 
@@ -42,7 +42,7 @@ k <- minPts-1
 kNNdistplot(data_final, k)
 
 #user chosen epsilon from knee
-eps <- 1.4
+eps <- .45
 abline(h = eps, col = "red") #red line on plot at knee
 
 db <- dbscan(data_final, eps, minPts)
@@ -59,13 +59,13 @@ ggplot(data_final %>% add_column(cluster = factor(db$cluster)),
 yvals <- c(length(data_final)-1,length(data_final))
 for (j in yvals) {
   for (i in 1:(length(data_final)-2)) {
-      p <- ggplot(data_final %>% add_column(cluster = factor(db$cluster)),
-            aes(data_final[[i]], data_final[[j]], color = cluster)) + geom_point() + 
-            ggtitle(paste(colnames(data_final[i])," vs ",colnames(data_final[j]))) + 
-            xlab(colnames(data_final[i])) +
-            ylab(colnames(data_final[j]))
-      ggsave(paste("./charts/cluster_profile",i,j,".png"),  plot = p,  device = "png",  
-            scale = 1,  width = 1200,  height = 1000,  units =  "px", dpi = 100)
+    p <- ggplot(data_final %>% add_column(cluster = factor(db$cluster)),
+                aes(data_final[[i]], data_final[[j]], color = cluster)) + geom_point() + 
+      ggtitle(paste(colnames(data_final[i])," vs ",colnames(data_final[j]))) + 
+      xlab(colnames(data_final[i])) +
+      ylab(colnames(data_final[j]))
+    ggsave(paste("./charts/cluster_profile",i,j,".png"),  plot = p,  device = "png",  
+           scale = 1,  width = 1200,  height = 1000,  units =  "px", dpi = 100)
   }
 }
 
@@ -80,5 +80,9 @@ data_final$deaths_per10000 <- data$deaths_per1000 *10
 data_final$confirmed_cases_per1000 <- data$confirmed_cases_per1000
 
 p <- create_cluster_profile2(data_final)
+ggsave(paste("./charts/cluster_differs.png"),  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 1000,  units =  "px", dpi = 100)
+
 p
+write.csv(data_final, file = "dbscan.csv")
 #End Code steven Added
