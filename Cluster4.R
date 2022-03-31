@@ -117,3 +117,36 @@ ret <- entropy( random_15, catagorize_cases(data_final, 15))
 ret$total
 ret$indv
 
+
+#
+# Sever Rent Burden
+data <- read_csv("cluster4.csv")
+data$cluster <- as.factor(selected$cluster)
+
+p <- create_box_plots_per_cluster_severe_burden(data, title="Severe Rent Burden per cluster")
+p
+ggsave("./charts/cluster4/sevre_rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+p <- create_box_plots_per_cluster_no_burden(data, title="No Rent Burden per cluster")
+p
+ggsave("./charts/cluster4/no_rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+p <- create_box_plots_per_cluster_rent_burden (data, title="Rent Burden per cluster")
+p
+ggsave("./charts/cluster4/rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+p <- create_box_plots_per_cluster_commuters_by_public_transportation (data, title="Normalized commuters_by_public_transportation_cluste")
+p
+ggsave("./charts/cluster4/commuters_by_public_transportation_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+
+p <- create_box_plots_per_cluster_median_income (data, title="Normalized median income")
+p
+ggsave("./charts/cluster4/commuters_by_public_transportation_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+

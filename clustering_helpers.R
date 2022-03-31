@@ -46,6 +46,49 @@ create_box_plots_per_cluster_cases <- function(data) {
           ggtitle("Case Statistics per Cluster"))
   p
 }
+create_box_plots_per_cluster_total_pop <- function(data, title="") {
+  p <- (ggplot(data, aes(x=cluster, y=total_pop)) + 
+          geom_boxplot() + 
+          ylab("Population") + 
+          ggtitle(title))
+  p
+}
+create_box_plots_per_cluster_severe_burden <- function(data, title="") {
+  p <- (ggplot(data, aes(x=cluster, y=severe_burden)) + 
+          geom_boxplot() + 
+          ylab("% Burden") + 
+          ggtitle(title))
+  p
+}
+create_box_plots_per_cluster_no_burden <- function(data, title="") {
+  p <- (ggplot(data, aes(x=cluster, y=no_rent_burden)) + 
+          geom_boxplot() + 
+          ylab("% Burden") + 
+          ggtitle(title))
+  p
+}
+create_box_plots_per_cluster_rent_burden <- function(data, title="") {
+  p <- (ggplot(data, aes(x=cluster, y=rent_burden)) + 
+          geom_boxplot() + 
+          ylab("% Burden") + 
+          ggtitle(title))
+  p
+}
+create_box_plots_per_cluster_commuters_by_public_transportation <- function(data, title="") {
+  p <- (ggplot(data, aes(x=cluster, y=commuters_by_public_transportation)) + 
+          geom_boxplot() + 
+          ylab("% Normalized commuters_by_public_transportation") + 
+          ggtitle(title))
+  p
+}
+median_income
+create_box_plots_per_cluster_median_income <- function(data, title="") {
+  p <- (ggplot(data, aes(x=cluster, y=median_income)) + 
+          geom_boxplot() + 
+          ylab("% Normalized median_income") + 
+          ggtitle(title))
+  p
+}
 
 
 # From https://github.com/jhmadsen/ClustTools/blob/master/R/ClusterFunctions.R

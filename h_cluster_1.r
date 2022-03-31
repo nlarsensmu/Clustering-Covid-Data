@@ -90,6 +90,7 @@ source("./clustering_helpers.R")
 
 # Add back the deaths
 hc_15 <- cutree(hc, 15)
+table(hc_15)
 selected$confirmed_cases_per1000 <- data$confirmed_cases_per1000
 selected$deaths_per10000 <-  data$deaths_per1000 * 10
 selected$cluster <- hc_15
@@ -131,3 +132,36 @@ ret$indv
 ret <- entropy( random_10, catagorize_cases(selected, 15))
 ret$total
 ret$indv
+
+
+# Sever Rent Burden
+data <- read_csv("cluster_h_1.csv")
+data$cluster <- as.factor(selected$cluster)
+
+p <- create_box_plots_per_cluster_severe_burden(data, title="Severe Rent Burden per cluster")
+p
+ggsave("./charts/cluster3/sevre_rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+p <- create_box_plots_per_cluster_no_burden(data, title="No Rent Burden per cluster")
+p
+ggsave("./charts/cluster3/no_rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+p <- create_box_plots_per_cluster_rent_burden (data, title="Rent Burden per cluster")
+p
+ggsave("./charts/cluster3/rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+p <- create_box_plots_per_cluster_commuters_by_public_transportation (data, title="Normalized commuters_by_public_transportation_cluste")
+p
+ggsave("./charts/cluster3/commuters_by_public_transportation_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+
+p <- create_box_plots_per_cluster_median_income (data, title="Normalized median income")
+p
+ggsave("./charts/cluster3/income_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+

@@ -132,3 +132,27 @@ ret <- entropy( random_15, catagorize_cases(data_final, 15))
 ret$total
 ret$indv
 
+# population
+data_final$original_total_pop <- data$original_total_pop
+p <- create_box_plots_per_cluster_total_pop(data_final, title="Normalized Population per cluster")
+ggsave("./charts/cluster1/clusters_pop.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100
+)
+
+# Sever Rent Burden
+p <- create_box_plots_per_cluster_severe_burden(data_final, title="Severe Rent Burden per cluster")
+p
+ggsave("./charts/cluster1/sevre_rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+p <- create_box_plots_per_cluster_no_burden(data_final, title="No Rent Burden per cluster")
+p
+ggsave("./charts/cluster1/no_rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+p <- create_box_plots_per_cluster_rent_burden (data_final, title="Rent Burden per cluster")
+p
+ggsave("./charts/cluster1/rent_burden_cluster.png",  plot = p,  device = "png",  
+       scale = 1,  width = 1200,  height = 300,  units =  "px", dpi = 100
+)
+
