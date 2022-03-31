@@ -46,7 +46,7 @@ ggsave("./charts/eval/cluster_h_map.png", plot = p,  device = "png",
 
 p <- create_map_of_cluster("cluster4.csv", "PAM with Population, Rent Burden, Median Income and Transportation", "with 15 clusters")
 p
-ggsave("./charts/eval/cluster1_map.png", plot = p,  device = "png",  
+ggsave("./charts/eval/cluster4_map.png", plot = p,  device = "png",  
        scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100)
 
 
