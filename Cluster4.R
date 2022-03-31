@@ -83,14 +83,13 @@ ggsave("./charts/cluster4/cluster_profile.png",  plot = p,  device = "png",
        scale = 1,  width = 1200,  height = 1000,  units =  "px", dpi = 100
 )
 
-data_final$cluster <- as.factor(data_final$cluster)
-p <- create_box_plots_per_cluster_deaths(data_final)
+data_final$cluster_f <- as.factor(data_final$cluster)
+p <- create_box_plots_per_cluster_deaths(cluster_f)
 p
 ggsave("./charts/cluster4/box_plot_deaths.png",  plot = p,  device = "png",  
        scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100
 )
 
-data_final$cluster_f <- as.factor(data_final$cluster)
 p <- create_box_plots_per_cluster_cases(cluster_f)
 p
 ggsave("./charts/cluster4/box_plot_cases.png",  plot = p,  device = "png",  
