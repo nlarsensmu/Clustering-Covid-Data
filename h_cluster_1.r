@@ -98,6 +98,9 @@ p
 ggsave("./charts/ColorProfileHClust.png", plot = p,  device = "png",  
        scale = 1,  width = 1200,  height = 700,  units =  "px", dpi = 100)
 
+data$cluster <- hc_15
+
+write.csv(data, file = "cluster_h_1.csv")
 
 print(table(hc_15))
 result <- SSE(selected, hc_15)
